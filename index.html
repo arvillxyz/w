@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oliwia ❤️</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px 25px;
+        border-radius: 25px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        width: 90%;
+        max-width: 400px;
+        position: relative;
+        z-index: 2;
+    }
+
+    h1 {
+        font-size: 24px;
+        color: #d6336c;
+        margin-bottom: 40px;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    button {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 40px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    #yesBtn {
+        background: #ff4d6d;
+        color: white;
+        box-shadow: 0 5px 15px rgba(255,77,109,0.4);
+    }
+
+    #noBtn {
+        background: #dee2e6;
+        color: #333;
+    }
+
+    .cat {
+        margin-top: 30px;
+        max-width: 200px;
+        animation: pop 0.5s ease;
+    }
+
+    @keyframes pop {
+        from { transform: scale(0); }
+        to { transform: scale(1); }
+    }
+
+    .heart {
+        position: fixed;
+        bottom: -20px;
+        font-size: 24px;
+        animation: floatUp 4s linear forwards;
+        z-index: 1;
+    }
+
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-110vh) scale(1.5);
+            opacity: 0;
+        }
+    }
+
+    audio {
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1 id="question">Oliwia... ❤️<br><br>Czy zostaniesz moją walentynką?</h1>
+
+    <div class="buttons">
+        <button id="yesBtn">TAK 💖</button>
+        <button id="noBtn">NIE 😅</button>
+    </div>
+
+    <div id="catContainer"></div>
+</div>
+
+<!-- preload = ładuje wcześniej -->
+<audio id="bgMusic" preload="auto">
+    <source src="yay.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const question = document.getElementById("question");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const catContainer = document.getElementById("catContainer");
+    const music = document.getElementById("bgMusic");
+
+    let noClickCount = 0;
+    let yesSize = 1;
+    let noSize = 1;
+
+    const messages = [
+        "Oliwia... czy jesteś pewna? 🥺",
+        "Czy aby na pewno? 😏",
+        "No weeeź 😭",
+        "Obiecuję romantyczny dzień 💕",
+        "To już ostatnia szansa 😳",
+        "Jednak nie odpuszczę, nie daj sie prosić 😘"
+    ];
+
+    noBtn.addEventListener("click", () => {
+        noClickCount++;
+
+        if (noClickCount < messages.length) {
+            question.textContent = messages[noClickCount];
+        } else {
+            question.textContent = "Serio Oliwia? 😢";
+        }
+
+        noSize *= 0.8;
+        yesSize *= 1.2;
+
+        noBtn.style.transform = `scale(${noSize})`;
+        yesBtn.style.transform = `scale(${yesSize})`;
+    });
+
+    yesBtn.addEventListener("click", () => {
+
+        question.innerHTML = "JEEEEJ! 💖<br>Nie mogę się doczekać, obiecuję, będzie super! Kocham Cię 💖";
+        document.querySelector(".buttons").style.display = "none";
+
+        catContainer.innerHTML = '<img src="dancing-cat.gif" class="cat">';
+
+        music.currentTime = 0;
+        music.play();
+
+        // ❤️ Serduszka
+        setInterval(() => {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 4000);
+        }, 300);
+
+    });
+</script>
+
+</body>
+</html>
